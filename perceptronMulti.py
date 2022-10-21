@@ -104,13 +104,10 @@ for j in range (0,len(score4)):
 print("score ",score4) # 
 # %%
 digits = load_digits()
-#spliting the dataset in train and test
-n_samples = len(digits.images)
-#digits.images = data = digits.images.reshape((n_samples, -1))
+
+n_samples = len(digits.data)
 x_train, x_test, Y_train, Y_test = train_test_split(digits.data, digits.target, test_size=0.1)
-#preprocessing data
-#scaler = StandardScaler()
-#scaler.fit(x_train) 
+
 
 #%% couche 
 test = 100
