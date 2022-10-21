@@ -29,7 +29,7 @@ def randX(n):
 def YAND(X):
     C = []
     for i in range(0,X.shape[0]):
-        if X[i,0]==X[i,1]:
+        if X[i,0]==X[i,1]==1:
             C.append(1)
         else:
             C.append(0)
@@ -50,7 +50,7 @@ def YOR(X):
 def YXOR(X):
     E = []
     for i in range(0,X.shape[0]):
-        if (X[i,0]==1 and X[i,1]!=1) or (X[i,0]!=1 and X[i,1]==1):
+        if (X[i,0]==1 and X[i,1]==0) or (X[i,0]==0 and X[i,1]==1):
             E.append(1)
         else:
             E.append(0)
@@ -76,8 +76,8 @@ print("score : ",accuracy_score(y_test1,clfAND.predict(X_test1)))
 
 X_train2, X_test2, y_train2, y_test2 = train_test_split(X, Y2,test_size=0.1)
 
-clfOR = MLPClassifier(hidden_layer_sizes=(),activation='identity',solver='lbfgs').fit(X_train2, y_train2)
-accuracy_score(clfOR)
+clfO = MLPClassifier(hidden_layer_sizes=(),activation='identity',solver='lbfgs').fit(X_train2, y_train2)
+accuracy_score(y_test2,clfO.predict(X_test2))
 
 
 
@@ -85,13 +85,13 @@ accuracy_score(clfOR)
 # a
 X_train3, X_test3, y_train3, y_test3 = train_test_split(X, Y3,test_size=0.1)
 clfXOR = MLPClassifier(hidden_layer_sizes=(),activation='identity',solver='lbfgs').fit(X_train3, y_train3)
-accuracy_score(clfXOR)
+accuracy_score(y_test3,clfXOR.predict(X_test3))
 # %%
 #b
 X_train4, X_test4, y_train4, y_test4 = train_test_split(X, Y3,test_size=0.1)
 
 clfXOR = MLPClassifier(hidden_layer_sizes=(4,2),activation='identity',solver='lbfgs').fit(X_train3, y_train3)
-accuracy_score(clfXOR)
+accuracy_score(y_test4,clfXOR.predict(X_test4))
 # %%
 #c
 
