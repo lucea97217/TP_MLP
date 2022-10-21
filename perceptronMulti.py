@@ -128,7 +128,9 @@ for parameter in range(test):
         param[3]=solv
         score = scoreclf
 #%%
-param1=[472, 'logistic', 'invscaling', 'lbfgs']
+param1=[472, 'logistic', 'lbfgs']
+
+#MLPClassifier(hidden_layer_sizes=(472),activation=('logistic'),solver='lbfgs')
 
 # %%
 
@@ -157,7 +159,7 @@ for parameter in range(test):
 
 #%%
 
-df=MLPClassifier(hidden_layer_sizes=(param[0]),activation=(param1[1]),learning_rate=(param1[2]),solver=(param1[3]))
+df=MLPClassifier(hidden_layer_sizes=(param1[0]),activation=(param1[1]),solver=(param1[2]))
 acc = cross_val_score(df, x_train, Y_train, cv=5, n_jobs=-1)
 print("The error using MLP method equals {:.3f}%.".format((1 - acc.mean()) * 100))
 #%%
@@ -195,4 +197,76 @@ clf_linear = GridSearchCV(svr, parameters)
 clf_linear.fit(x_train, Y_train)
 
 print('Generalization score for linear kernel: %s' %((1-max(sorted(clf_linear.cv_results_['mean_test_score'])))*100),'%')
+
+
+
+###### ANNEXE ############
+
+
+# %%
+L = []
+for k in range(10) :
+    s = 0
+    for i in range(len(digits.target)) :
+        if digits.target[i] == k :
+            s = s +1
+    L.append(s)
+# %%
+inter = [-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5]
+
+plt.hist(digits.target, bins=inter, rwidth=0.8)  # Création de l'histogramme
+plt.xlabel('digits')
+plt.xticks(np.arange(0, 10))
+plt.ylabel('Effectif total')
+plt.title("Répartition des digits par labels")
+plt.show()
+
+# %%
+#%%
+def transfo_color(Y):
+    A = []
+    for i in range(len(Y)):
+        if Y[i]==0:
+            A+=["#FF3030"]
+        if Y[i]==1:
+            A+=["#3D9140"]
+    return A
+
+X = np.array([
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1]
+]
+)
+
+Y = [
+    transfo_color(YOR(X)),
+    transfo_color(YAND(X)),
+    transfo_color(YXOR(X))
+    ]
+    
+Title = ["OR", "AND", "XOR"]
+u = np.linspace(0,1,10)
+lines = [[0.5-u],[1.5-u],[]]
+
+for i in range(len(Y)):
+    plt.xlim([-0.2, 1.2])
+    plt.ylim([-0.2, 1.2])
+    plt.xticks([0,1])
+    plt.yticks([0,1])
+    plt.axis('off')
+    #plt.title(Title[i])
+    plt.scatter(
+        X[:,0],
+        X[:,1],
+        s= 500,
+        c = Y[i],
+        marker="o")
+    for j in range(len(Y[i])):
+        plt.text(X[j][0]-0.04,X[j][1]-0.15,"("+str(X[j][0])+","+str(X[j][1])+")")
+    for l in range(len(lines[i])):
+        plt.plot(u,lines[i][l],color="b")
+    plt.show()
+
 # %%
